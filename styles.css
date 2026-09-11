@@ -1,0 +1,1597 @@
+/* =============================================================================
+   Blabble — foglio di stile unico
+   Design: Figma "Confirmation Bias" (Desktop W1440 / Mobile W393)
+
+   Scala responsive a tre gradini:
+     base            → design mobile (393)
+     >= 768px  (md)  → interpolazione tablet
+     >= 1024px (lg)  → design desktop
+     >= 1280px (xl)  → valori tipografici pieni del desktop (1440)
+   ========================================================================== */
+
+/* ----------------------------------------------------------------- Font --- */
+@font-face {
+  font-family: "Gyrotrope";
+  src: url("fonts/GyrotropeVF.ttf") format("truetype-variations");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Fontick";
+  src: url("fonts/Fontick.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------- Token --- */
+:root {
+  /* variabili colore del file Figma */
+  --viola: #8134af;
+  --viola-2: #b681e2;
+  --arancio: #f58529;
+  --arancio-2: #f2ad70;
+  --fucsia: #dd2a7b;
+  --fucsia-2: #f47cb2;
+  --blu: #515bd4;
+  --blu-2: #99a1f9;
+  --giallo: #feda77;
+  --chiaro: #fffcf5;
+  --scuro: #0c0510;
+  --placeholder: #dddddd;
+
+  /* navbar fissa: altezza misurata della barra e distanza dal bordo alto
+     (a riposo la stessa del design, ridotta quando si scorre) */
+  --navbar-h: 52.75px;
+  --navbar-rest: 70px;
+  --navbar-scrolled: 24px;
+  /* stesso viola con alfa 0: usato nei gradienti per non sfumare verso il nero */
+  --viola-0: rgb(129 52 175 / 0);
+
+  --font-display: "Fontick", "Trebuchet MS", sans-serif;
+  --font-sans: "Gyrotrope", "Trebuchet MS", sans-serif;
+
+  /* l'interlinea "normal" di Gyrotrope nel motore di Figma vale ~1,36 */
+  --leading-body: 1.36;
+
+  color-scheme: light;
+}
+
+/* ----------------------------------------------------------- Azzeramento --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  /* la barra di scorrimento resta prenotata anche con i popup aperti, così la
+     pagina dietro non si sposta quando il documento smette di scorrere */
+  scrollbar-gutter: stable;
+  scroll-behavior: smooth;
+  /* le ancore si fermano sotto la navbar fissa */
+  scroll-padding-top: calc(var(--navbar-scrolled) + var(--navbar-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--chiaro);
+  color: var(--scuro);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: var(--leading-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+}
+
+:where(a, button):focus-visible {
+  outline: 3px solid var(--giallo);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+/* --------------------------------------------------------------- Utility --- */
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 25px;
+}
+
+/* interruzioni di riga presenti solo in uno dei due file Figma */
+.br-desktop {
+  display: none;
+}
+
+.only-desktop {
+  display: none;
+}
+
+/*
+   Righe diagonali del brand — un'unica superficie ripetuta.
+
+   Misure prese dagli export Figma (node 1043:384 desktop, 1043:1498 mobile):
+   bande a 45° che scendono verso destra, nell'ordine Arancio · Blu · Viola ·
+   Fucsia lungo l'asse x. Il passo orizzontale misurato è 98,385px sul desktop
+   (spessore perpendicolare 69,57px) e 76,44px su mobile (54,05px).
+
+   Il pattern dipende solo da u = x − y, quindi si ripete identico dentro un
+   quadrato di lato 4 × passo orizzontale. Fissando `background-size` a quel
+   quadrato e `background-position` a 0 0 il disegno resta ancorato allo spigolo
+   in alto a sinistra della fascia: allargando la finestra si scopre altro
+   pattern, non lo si ridimensiona. Le misure sono arrotondate al pixel intero
+   (306 / 394) così le piastrelle non lasciano cuciture.
+*/
+.stripes {
+  /* tessera quadrata = 4 bande misurate in orizzontale */
+  --stripe-tile: 306px;
+  /* ciclo dei 4 colori misurato in perpendicolare (= tessera / √2) */
+  --stripe-cycle: 216.3747px;
+
+  /* altezza dell'hero e posizione del taglio, espresso in u = x − y.
+     Su schermi bassi vale l'altezza del viewport: l'hero si stringe e il
+     vertice del taglio lo segue, restando sul reticolo delle righe. */
+  --hero-h: min(852px, 100svh);
+  /* sotto questa soglia non c'è più nulla da comprimere: l'hero torna a
+     crescere col contenuto invece di sbordare */
+  --hero-floor: 520px;
+  --cut-u: -773.7px;
+
+  background-color: var(--viola);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--blu) 0 47.942px,
+    var(--viola) 47.942px 102.036px,
+    var(--fucsia) 102.036px 156.13px,
+    var(--arancio) 156.13px 210.224px,
+    var(--blu) 210.224px var(--stripe-cycle)
+  );
+  background-position: 0 0;
+  background-size: var(--stripe-tile) var(--stripe-tile);
+  background-repeat: repeat;
+}
+
+/* ------------------------------------------------------------------ Hero --- */
+.hero {
+  position: relative;
+  display: flex;
+  min-height: var(--hero-h);
+  /* con poca altezza disponibile l'hero si limita al viewport: i due stacchi
+     si comprimono (vedi .hero__gap) e il pulsante resta in vista */
+  max-height: max(calc(100svh + 1px), var(--hero-floor));
+  flex-direction: column;
+}
+
+.hero__inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* la navbar non è più nel flusso: il suo ingombro diventa padding, così il
+     lockup resta alla stessa altezza del design */
+  padding-block: calc(var(--navbar-rest) + var(--navbar-h)) 40px;
+  /* l'altezza minima automatica bloccherebbe la compressione degli stacchi */
+  min-height: 0;
+}
+
+/*
+   Stacchi verticali del design (163px e 230px su mobile, 222px e 162px da
+   1024px): sono elementi flex con `flex-shrink: 1`, quindi restano identici
+   al design finché c'è spazio e si stringono in proporzione quando il viewport
+   è più basso dell'hero.
+*/
+.hero__gap {
+  display: block;
+  width: 100%;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+.hero__gap--logo {
+  height: 163px;
+}
+
+.hero__gap--btn {
+  height: 230px;
+}
+
+.hero__logo,
+.hero__claim,
+.hero__btn {
+  flex-shrink: 0;
+}
+
+.hero__logo {
+  width: 308px;
+}
+
+.hero__claim {
+  width: 324px;
+  max-width: 100%;
+  font-size: 1.375rem;
+  font-weight: 900;
+  text-align: center;
+  color: var(--chiaro);
+}
+
+.hero__btn {
+  align-self: center;
+}
+
+/* ---------------------------------------------------------------- Navbar --- */
+.navbar-wrap {
+  /* fissa al viewport, ma con lo stesso riquadro di .container: larghezza
+     massima 1440px, centrata, stesso gutter laterale del resto della pagina */
+  position: fixed;
+  top: var(--navbar-rest);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 25px;
+  pointer-events: none;
+  transition: top 0.2s ease;
+}
+
+.navbar,
+.menu {
+  pointer-events: auto;
+}
+
+/* scorrendo la barra si avvicina al bordo alto */
+body.is-scrolled .navbar-wrap {
+  top: var(--navbar-scrolled);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: 25.405px;
+  background-color: var(--chiaro);
+}
+
+/* Figma ritaglia il contorno chiaro del wordmark nella navbar */
+.navbar__logo {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 82px;
+  height: 20.759px;
+  overflow: hidden;
+}
+
+.navbar__logo img {
+  position: absolute;
+  left: 0;
+  top: -30%;
+  width: 104.81%;
+  height: 157.2%;
+  max-width: none;
+}
+
+.nav-links {
+  display: none;
+}
+
+.nav-link {
+  position: relative;
+  white-space: nowrap;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
+  background-color: var(--fucsia);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 17px;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* area di tocco più generosa del glifo */
+.nav-toggle::after {
+  content: "";
+  position: absolute;
+  inset: -12px;
+}
+
+.hamburger {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 17px;
+}
+
+.hamburger span {
+  position: absolute;
+  left: 50%;
+  height: 3px;
+  border-radius: 0.75px;
+  background-color: var(--scuro);
+  transform: translateX(-50%);
+  transition: all 0.3s ease;
+}
+
+.hamburger span:nth-child(1) {
+  top: 0;
+  width: 19px;
+}
+
+.hamburger span:nth-child(2) {
+  top: 7px;
+  width: 24px;
+}
+
+.hamburger span:nth-child(3) {
+  top: 14px;
+  width: 19px;
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger span:nth-child(1) {
+  top: 7px;
+  width: 24px;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger span:nth-child(3) {
+  top: 7px;
+  width: 24px;
+  transform: translateX(-50%) rotate(-45deg);
+}
+
+.menu {
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 25.405px;
+  background-color: var(--chiaro);
+  box-shadow: 0 18px 40px -16px rgb(12 5 16 / 45%);
+}
+
+.menu[hidden] {
+  display: none;
+}
+
+.menu ul {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.menu a {
+  display: block;
+  padding: 12px 20px;
+  border-radius: 19.5px;
+  font-size: 1rem;
+  font-weight: 800;
+  transition: background-color 0.2s ease;
+}
+
+.menu a:hover {
+  background-color: var(--giallo);
+}
+
+/* ------------------------------------------------------------- Lockup --- */
+/* Il gruppo "Blabble + fumetto" mantiene in Figma il rapporto 549 x 275,53 a
+   ogni dimensione: i figli sono quindi posizionati in percentuale. */
+.logo-lockup {
+  position: relative;
+  aspect-ratio: 549 / 275.53;
+}
+
+.logo-lockup__wordmark {
+  position: absolute;
+  left: 0;
+  top: 25.52%;
+  width: 98.45%;
+  height: 74.48%;
+}
+
+.logo-lockup__bubble {
+  position: absolute;
+  left: 57.65%;
+  top: 0;
+  width: 42.35%;
+  height: 43.08%;
+}
+
+.logo-lockup__bubble-text {
+  position: absolute;
+  left: 65.15%;
+  top: 7.63%;
+  width: 28.27%;
+  height: 19.53%;
+}
+
+/* -------------------------------------------------------------- Pulsanti --- */
+.btn {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 20px 6px 8px;
+  border-radius: 25.405px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--scuro);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -8px rgb(12 5 16 / 45%);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn__icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  border-radius: 19.5px;
+  transition: transform 0.2s ease;
+}
+
+.btn:hover .btn__icon {
+  transform: scale(1.05);
+}
+
+.btn__icon img {
+  width: 19px;
+  height: 21px;
+}
+
+.btn__label {
+  white-space: nowrap;
+}
+
+.btn--chiaro {
+  background-color: var(--chiaro);
+}
+
+.btn--chiaro .btn__icon {
+  background-color: var(--giallo);
+}
+
+.btn--giallo {
+  background-color: var(--giallo);
+}
+
+.btn--giallo .btn__icon {
+  background-color: var(--chiaro);
+}
+
+.btn--arancio {
+  background-color: var(--arancio-2);
+}
+
+.btn--arancio .btn__icon {
+  background-color: var(--giallo);
+}
+
+.btn--chiaro:hover,
+.btn--arancio:hover {
+  background-color: var(--giallo);
+}
+
+.btn--giallo:hover {
+  background-color: var(--chiaro);
+}
+
+/*
+  Hover unico dei pulsanti tondi gialli: la "×" dei popup e le frecce della
+  galleria. `--btn-round-rest` conserva la trasformazione a riposo di chi la
+  usa (le frecce sono centrate con translateY(-50%)), così lo stesso ingrandimento
+  vale per entrambi senza toccare misure o posizione.
+*/
+.btn-round {
+  --btn-round-rest: translateY(0);
+  cursor: pointer;
+  transform: var(--btn-round-rest);
+  transition: transform 0.3s ease;
+}
+
+.btn-round:hover {
+  transform: var(--btn-round-rest) scale(1.08);
+}
+
+/* il pulsante del footer è leggermente più basso e più spaziato */
+.btn--compact {
+  gap: 20px;
+  border-radius: 35px;
+}
+
+/* --------------------------------------------------------- Ritmo sezioni --- */
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.section__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 20px;
+  border-radius: 25.405px;
+  background-color: var(--giallo);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--scuro);
+}
+
+.heading {
+  max-width: 888px;
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.heading--chiaro {
+  color: var(--chiaro);
+}
+
+/* --------------------------------------------------------------- Card --- */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 29px 30px 35px;
+  border-radius: 35px;
+  color: var(--scuro);
+}
+
+.card--viola {
+  background-color: var(--viola-2);
+}
+
+.card--fucsia {
+  background-color: var(--fucsia-2);
+}
+
+.card__title {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 400;
+  line-height: normal;
+  /* niente letter-spacing: Fontick unisce le lettere con la feature OpenType
+     "liga" e i browser disattivano le legature quando la spaziatura non e' 0 */
+}
+
+.card__body {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------- Il problema --- */
+.problema {
+  position: relative;
+  isolation: isolate;
+}
+
+/*
+   Il taglio fra hero e "Il problema" (Figma "Vector 2" / "Rectangle 20").
+
+   La sagoma viola è un bordo orizzontale sul fondo dell'hero seguito da una
+   diagonale che scende verso destra parallela alle righe — in Figma cade
+   esattamente su un bordo di banda, così il fucsia continua nel fucsia,
+   l'arancio nell'arancio e così via. Un `conic-gradient` con vertice in un
+   punto fisso riproduce le due semirette (ovest e sud-est) senza dipendere
+   dalle dimensioni dell'elemento: il vertice sta a `--hero-h + --cut-u` dal
+   bordo sinistro della fascia, cioè sempre sulla stessa linea del pattern.
+*/
+.problema__bg {
+  position: absolute;
+  inset: 0 0 -1px;
+  z-index: -1;
+  background-image: conic-gradient(
+    from 0deg at calc(var(--hero-h) + var(--cut-u)) 0,
+    var(--viola-0) 0 135deg,
+    var(--viola) 135deg 270deg,
+    var(--viola-0) 270deg 360deg
+  );
+}
+
+.section--problema {
+  padding-block: 75px;
+}
+
+.problema__grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 60px;
+}
+
+/* ------------------------------------------------------------ La sfida --- */
+.sfida {
+  background-color: var(--fucsia);
+}
+
+.section--sfida {
+  padding-block: 90px 60px;
+}
+
+.sfida__card {
+  margin-top: 48px;
+}
+
+/* ------------------------------------------------------------ Il gioco --- */
+.gioco {
+  background-color: var(--chiaro);
+}
+
+.section--gioco {
+  padding-block: 90px 60px;
+}
+
+.gioco__headrow {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 30px;
+}
+
+.gioco__body {
+  display: flex;
+  flex-direction: column;
+  margin-top: 60px;
+}
+
+.gioco__text {
+  order: 2;
+  max-width: 1001px;
+  margin-top: 30px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.gioco__btn {
+  order: 2;
+  align-self: flex-start;
+  margin-top: 30px;
+}
+
+/* dati di gioco: "20+ | (icona) 3-6" */
+.players {
+  display: flex;
+  align-items: center;
+}
+
+.players--inline {
+  display: none;
+}
+
+.players--stack {
+  order: 2;
+  margin-top: 59px;
+}
+
+.players__number {
+  font-family: var(--font-display);
+  font-size: 3.24075rem;
+  line-height: normal;
+  color: var(--scuro);
+}
+
+.players__number--last {
+  margin-left: 8px;
+}
+
+.players__rule {
+  width: 1px;
+  height: 63.735px;
+  margin-left: 15px;
+  background-color: var(--scuro);
+}
+
+.players__icon {
+  width: 59.212px;
+  height: 51.02px;
+  margin-left: 19px;
+}
+
+/* galleria */
+.carousel {
+  position: relative;
+  order: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 371px;
+  overflow: hidden;
+  border-radius: 35px;
+  background-color: var(--placeholder);
+}
+
+.carousel__track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+/* una slide per immagine: larga come la cornice, ritagliata senza deformare */
+.carousel__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: start;
+}
+
+.carousel__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* con una sola immagine le frecce non servono */
+.carousel--single .carousel__btn {
+  display: none;
+}
+
+.carousel__btn {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  border-radius: 999px;
+  background-color: var(--giallo);
+  --btn-round-rest: translateY(-50%);
+}
+
+.carousel__btn img {
+  width: 19px;
+  height: 21px;
+}
+
+.carousel__btn--prev {
+  left: 10px;
+}
+
+.carousel__btn--prev img {
+  transform: rotate(90deg);
+}
+
+.carousel__btn--next {
+  right: 10px;
+}
+
+.carousel__btn--next img {
+  transform: rotate(-90deg);
+}
+
+/* --------------------------------------------------------- Il glossario --- */
+.glossario {
+  background-color: var(--blu);
+}
+
+.section--glossario {
+  padding-block: 90px 60px;
+}
+
+.glossary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin-top: 60px;
+}
+
+.glossary li {
+  display: flex;
+}
+
+.glossary__card {
+  display: flex;
+  width: 100%;
+  min-height: 97px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 29px 20px;
+  border-radius: 35px;
+  background-color: var(--blu-2);
+  text-align: left;
+  cursor: pointer;
+}
+
+.glossary__title {
+  min-width: 0;
+  overflow-wrap: break-word;
+  font-family: var(--font-display);
+  font-size: 1.625rem;
+  line-height: 1.167;
+  color: var(--scuro);
+}
+
+.glossary__plus {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  border-radius: 999px;
+  background-color: var(--giallo);
+}
+
+/* il "+" è costruito con le stesse barre arrotondate del design */
+.plus {
+  position: relative;
+  display: block;
+  width: 19px;
+  height: 19px;
+  color: var(--chiaro);
+}
+
+.plus::before,
+.plus::after {
+  content: "";
+  position: absolute;
+  border-radius: 0.75px;
+  background-color: currentcolor;
+}
+
+.plus::before {
+  top: 0;
+  left: 50%;
+  width: 3px;
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+.plus::after {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  transform: translateY(-50%);
+}
+
+/* ---------------------------------------------------------------- Popup --- */
+/*
+   Figma: pannello largo 1001px, raggio 60px, padding 40/30/80/58, titolo
+   Fontick 60px con il pulsante giallo di chiusura allineato in alto a destra,
+   testo Gyrotrope 24px. Il fondo è la stessa tinta della sezione con
+   trasparenza e sfocatura (blu 70% per il glossario, chiaro 90% per le fonti).
+   Il layout mobile non esiste nel design: qui scala sulle stesse proporzioni.
+*/
+.modal {
+  /* l'azzeramento globale dei margini toglie l'`auto` con cui il browser
+     centra un <dialog> modale: lo rimettiamo qui */
+  margin: auto;
+  width: min(1001px, 100% - 32px);
+  max-height: min(860px, 100dvh - 40px);
+  padding: 24px 20px 32px 24px;
+  border: 0;
+  border-radius: 35px;
+  background-color: var(--blu-2);
+  color: var(--scuro);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.modal--fonti {
+  background-color: var(--arancio-2);
+}
+
+.modal::backdrop {
+  background-color: rgb(81 91 212 / 70%);
+  backdrop-filter: blur(5px);
+}
+
+.modal--fonti::backdrop {
+  background-color: rgb(255 252 245 / 90%);
+  backdrop-filter: blur(5px);
+}
+
+/* il documento non deve scorrere dietro al popup */
+body.has-modal {
+  overflow: hidden;
+}
+
+.modal__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modal__title {
+  min-width: 0;
+  margin-top: 10px;
+  overflow-wrap: break-word;
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.modal__close {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background-color: var(--giallo);
+}
+
+/* la "×" del design è lo stesso "+" ruotato di 45° */
+.plus--close {
+  width: 21px;
+  height: 21px;
+  transform: rotate(45deg);
+}
+
+.modal__body {
+  margin-top: 16px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.modal__list {
+  padding-left: 22px;
+  list-style: disc;
+}
+
+.modal__list li + li {
+  margin-top: 8px;
+}
+
+/* --------------------------------------------------------------- Footer --- */
+.footer {
+  background-color: var(--chiaro);
+}
+
+.footer__inner {
+  padding-block: 30px;
+}
+
+.footer__card {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 30px 30px;
+  border-radius: 35px;
+  background-color: var(--arancio);
+}
+
+.footer__logo {
+  width: 225px;
+  margin-inline: auto;
+}
+
+.footer__credits {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 43px;
+  text-align: center;
+}
+
+.footer__title {
+  font-family: var(--font-display);
+  font-size: 1.625rem;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.footer__text {
+  margin-top: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.footer__btn {
+  margin-top: 56px;
+}
+
+.footer__copyright {
+  margin-top: 57px;
+  font-size: 0.625rem;
+  font-weight: 500;
+}
+
+/* =============================================================================
+   >= 380px — i titoli del glossario tornano alla misura mobile del design
+   ========================================================================== */
+@media (min-width: 380px) {
+  .glossary__card {
+    padding-inline: 30px;
+  }
+
+  .glossary__title {
+    font-size: 1.875rem;
+  }
+}
+
+/* =============================================================================
+   >= 768px — tablet
+   ========================================================================== */
+@media (min-width: 768px) {
+  .container,
+  .navbar-wrap {
+    padding-inline: 40px;
+  }
+
+  /*
+     Passo desktop: 98,5px in orizzontale (69,65px in perpendicolare).
+     Cambia solo la misura della tessera, non l'angolo né l'ordine dei colori.
+
+     Il taglio resta sul reticolo ma su una linea Viola→Fucsia più a sinistra
+     (−527,5 = −133,5 − un ciclo intero): a queste larghezze il vertice del
+     design desktop cadrebbe fuori dallo schermo e la diagonale sparirebbe.
+     Torna al valore Figma da 1280px in su.
+  */
+  .stripes {
+    --stripe-tile: 394px;
+    --stripe-cycle: 278.6001px;
+    --cut-u: -527.5px;
+
+    background-image: repeating-linear-gradient(
+      45deg,
+      var(--arancio) 0 44.9013px,
+      var(--blu) 44.9013px 114.5513px,
+      var(--viola) 114.5513px 184.2013px,
+      var(--fucsia) 184.2013px 253.8513px,
+      var(--arancio) 253.8513px var(--stripe-cycle)
+    );
+  }
+
+  .hero__gap--logo {
+    height: 190px;
+  }
+
+  .hero__gap--btn {
+    height: 180px;
+  }
+
+  .hero__logo {
+    width: 420px;
+  }
+
+  .hero__claim {
+    width: 400px;
+    font-size: 1.875rem;
+  }
+
+  .hero__btn {
+    align-self: flex-end;
+  }
+
+  .modal {
+    padding: 32px 26px 56px 40px;
+    border-radius: 48px;
+  }
+
+  .modal__title {
+    margin-top: 22px;
+    font-size: 2.75rem;
+  }
+
+  .modal__close {
+    width: 56px;
+    height: 56px;
+  }
+
+  .plus--close {
+    width: 26px;
+    height: 26px;
+  }
+
+  .modal__body {
+    margin-top: 20px;
+    font-size: 1.25rem;
+  }
+
+  .heading {
+    font-size: 4rem;
+    line-height: 1.05;
+  }
+
+  .btn {
+    font-size: 1.125rem;
+  }
+
+  .card {
+    padding-inline: 40px;
+  }
+
+  .card__title {
+    font-size: 2.75rem;
+  }
+
+  .card__body,
+  .gioco__text {
+    font-size: 1.125rem;
+  }
+
+  .carousel {
+    height: 500px;
+  }
+
+  .glossary {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 15px;
+    row-gap: 20px;
+  }
+
+  .footer__card {
+    padding-inline: 60px;
+  }
+
+  .footer__logo {
+    width: 300px;
+  }
+
+  .footer__title {
+    font-size: 2rem;
+  }
+
+  .footer__text {
+    font-size: 0.9375rem;
+  }
+}
+
+/* =============================================================================
+   >= 1024px — design desktop
+   ========================================================================== */
+@media (min-width: 1024px) {
+  .container,
+  .navbar-wrap {
+    padding-inline: 50px;
+  }
+
+  /* la barra desktop è più alta e parte più in alto */
+  :root {
+    --navbar-h: 59.19px;
+    --navbar-rest: 40px;
+  }
+
+  .br-desktop {
+    display: inline;
+  }
+
+  .br-mobile {
+    display: none;
+  }
+
+  .only-desktop {
+    display: inline;
+  }
+
+  .only-mobile {
+    display: none;
+  }
+
+  /* ---- hero ---- */
+  .stripes {
+    --hero-h: min(1024px, 100svh);
+    --hero-floor: 640px;
+  }
+
+  .hero__inner {
+    padding-top: calc(var(--navbar-rest) + var(--navbar-h));
+  }
+
+  .hero__gap--logo {
+    height: 222px;
+  }
+
+  .hero__gap--btn {
+    height: 162px;
+  }
+
+  .hero__logo {
+    width: 549px;
+  }
+
+  .hero__claim {
+    width: 513px;
+    font-size: 2.25rem;
+  }
+
+  /* ---- navbar ---- */
+  .navbar {
+    padding-inline: 45px;
+    border-radius: 40px;
+  }
+
+  .navbar__logo {
+    width: 105.7px;
+    height: 26.759px;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+  }
+
+  .nav-toggle,
+  .menu {
+    display: none;
+  }
+
+  /* ---- tipografia ---- */
+  .badge {
+    padding-block: 10px;
+    font-size: 1.125rem;
+  }
+
+  .heading {
+    font-size: 4.75rem;
+    line-height: 1;
+  }
+
+  .section__head {
+    gap: 40px;
+  }
+
+  .btn {
+    gap: 10px;
+    padding: 12px 25px 12px 10px;
+    border-radius: 32px;
+    font-size: 1.125rem;
+  }
+
+  .btn--compact {
+    gap: 20px;
+    padding: 10px 20px 10px 8px;
+    border-radius: 32px;
+  }
+
+  /* ---- card ---- */
+  .card {
+    gap: 20px;
+    padding: 55.808px 57.733px 67.355px;
+    border-radius: 70px;
+  }
+
+  .card--plain {
+    padding-block: 60px;
+  }
+
+  .card__title {
+    font-size: 3.5rem;
+  }
+
+  .card__body,
+  .gioco__text {
+    font-size: 1.25rem;
+  }
+
+  /* ---- sezioni ---- */
+  .section--problema {
+    padding-block: 140px 108px;
+  }
+
+  .problema__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 90px;
+  }
+
+  .section--sfida,
+  .section--glossario {
+    padding-block: 140px 108px;
+  }
+
+  .sfida__card {
+    max-width: 1001px;
+    margin-top: 90px;
+  }
+
+  .section--gioco {
+    padding-block: 140px 90px;
+  }
+
+  .gioco__headrow {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .gioco__body {
+    margin-top: 40px;
+  }
+
+  .gioco__text {
+    margin-top: 0;
+  }
+
+  .gioco__btn {
+    margin-top: 40px;
+  }
+
+  /* ---- dati di gioco ---- */
+  .players--inline {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .players--stack {
+    display: none;
+  }
+
+  .players__number {
+    font-size: 4.22975rem;
+  }
+
+  .players__number--last {
+    margin-left: 11px;
+  }
+
+  .players__rule {
+    height: 88.102px;
+    margin-left: 21px;
+  }
+
+  .players__icon {
+    width: 81.851px;
+    height: 70.526px;
+    margin-left: 27px;
+  }
+
+  /* ---- galleria: passa in fondo alla sezione ---- */
+  .carousel {
+    order: 3;
+    height: auto;
+    margin-top: 131px;
+    border-radius: 70px;
+    aspect-ratio: 1340 / 820;
+  }
+
+  .carousel__btn {
+    width: 68px;
+    height: 68px;
+  }
+
+  .carousel__btn img {
+    width: 33.128px;
+    height: 36.615px;
+  }
+
+  .carousel__btn--prev {
+    left: 30px;
+  }
+
+  .carousel__btn--next {
+    right: 30px;
+  }
+
+  /* ---- glossario ---- */
+  .glossary {
+    margin-top: 90px;
+  }
+
+  /* ---- footer ---- */
+  .footer__inner {
+    padding-block: 40px;
+  }
+
+  .footer__card {
+    min-height: 547px;
+    padding: 90px 113px 34px;
+    border-radius: 67.551px;
+  }
+
+  .footer__logo {
+    position: absolute;
+    right: 8%;
+    bottom: 13px;
+    width: 42%;
+    max-width: 546px;
+    margin-inline: 0;
+  }
+
+  .footer__credits {
+    align-items: flex-start;
+    margin-top: 0;
+    text-align: left;
+  }
+
+  .footer__title {
+    font-size: 2.25rem;
+  }
+
+  .footer__text {
+    font-size: 0.875rem;
+  }
+
+  .footer__btn {
+    margin-top: 40px;
+  }
+
+  .footer__copyright {
+    margin-top: 75px;
+    font-size: 0.625rem;
+  }
+
+  /* desktop: queste misure arrivavano dai breakpoint minori, qui scendono di 4px */
+  .glossary__title {
+    font-size: 1.625rem;
+  }
+
+  .modal__title {
+    font-size: 2.5rem;
+  }
+
+  .modal__body {
+    font-size: 1rem;
+  }
+}
+
+/* =============================================================================
+   >= 1280px — le card del glossario possono tenere la misura del design (3 col)
+   ========================================================================== */
+@media (min-width: 1280px) {
+  /* larghezza piena del design: il taglio torna sulla linea di Figma */
+  .stripes {
+    --cut-u: -133.5px;
+  }
+
+  .heading {
+    font-size: 5.75rem;
+  }
+
+  .glossary {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .glossary__card {
+    min-height: 155px;
+    padding: 30px 28px;
+    border-radius: 40px;
+  }
+
+  .glossary__title {
+    font-size: clamp(1.9375rem, calc(2.78vw - 0.25rem), 2.25rem);
+  }
+
+  .glossary__plus {
+    width: 60px;
+    height: 60px;
+  }
+
+  .plus {
+    width: 29.231px;
+    height: 29.231px;
+  }
+
+  .modal {
+    padding: 40px 30px 80px 58px;
+    border-radius: 60px;
+  }
+
+  .modal__title {
+    margin-top: 38.87px;
+    font-size: 3.5rem;
+  }
+
+  .modal__close {
+    width: 64px;
+    height: 64px;
+  }
+
+  .plus--close {
+    width: 30px;
+    height: 30px;
+  }
+
+  .modal__body {
+    margin-top: 20px;
+    font-size: 1.25rem;
+  }
+
+  .modal__list {
+    padding-left: 36px;
+  }
+
+  .plus::before {
+    width: 4.615px;
+    border-radius: 1.154px;
+  }
+
+  .plus::after {
+    height: 4.615px;
+    border-radius: 1.154px;
+  }
+}
+
+/* --------------------------------------------------- Movimento ridotto --- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blabble — E tu che ne pensi?</title>
+    <meta
+      name="description"
+      content="Blabble è il gioco che mette al centro del tavolo i temi di cui altrimenti non parleresti mai: un'esperienza dal vivo per trasformare la polarizzazione digitale in intesa."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <!--
+        Hero e "Il problema" condividono lo stesso fondo a righe, così il taglio
+        diagonale fra le due sezioni cade su un pattern continuo.
+      -->
+      <div class="stripes">
+        <!-- ============================= HERO ============================= -->
+        <section class="hero" id="hero">
+          <div class="container hero__inner">
+            <div class="navbar-wrap">
+              <nav class="navbar" aria-label="Navigazione principale">
+                <a
+                  class="navbar__logo"
+                  href="#hero"
+                  aria-label="Blabble — torna all'inizio"
+                >
+                  <img
+                    src="assets/logo-blabble-nav.png"
+                    alt="Blabble"
+                    width="346"
+                    height="131"
+                  />
+                </a>
+
+                <ul class="nav-links">
+                  <li>
+                    <a class="nav-link" href="#il-problema">Il problema</a>
+                  </li>
+                  <li><a class="nav-link" href="#la-sfida">La sfida</a></li>
+                  <li><a class="nav-link" href="#il-gioco">Il gioco</a></li>
+                  <li>
+                    <a class="nav-link" href="#il-glossario">Il glossario</a>
+                  </li>
+                </ul>
+
+                <button
+                  class="nav-toggle"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="menu-mobile"
+                  aria-label="Apri il menu"
+                >
+                  <span class="hamburger" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                  </span>
+                </button>
+              </nav>
+
+              <div class="menu" id="menu-mobile" hidden>
+                <ul>
+                  <li><a href="#il-problema">Il problema</a></li>
+                  <li><a href="#la-sfida">La sfida</a></li>
+                  <li><a href="#il-gioco">Il gioco</a></li>
+                  <li><a href="#il-glossario">Il glossario</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <span class="hero__gap hero__gap--logo" aria-hidden="true"></span>
+
+            <div class="logo-lockup hero__logo">
+              <img
+                class="logo-lockup__wordmark"
+                src="assets/logo-blabble.png"
+                alt="Blabble"
+                width="691"
+                height="262"
+              />
+              <img
+                class="logo-lockup__bubble"
+                src="assets/bubble.svg"
+                alt=""
+                aria-hidden="true"
+              />
+              <img
+                class="logo-lockup__bubble-text"
+                src="assets/bubble-text.svg"
+                alt="E tu che ne pensi?"
+              />
+            </div>
+
+            <p class="hero__claim">
+              Il gioco per chi crede <br />
+              di avere un&rsquo;opinione <br />
+              su tutto
+            </p>
+
+            <span class="hero__gap hero__gap--btn" aria-hidden="true"></span>
+
+            <a class="btn btn--chiaro hero__btn" href="#il-problema">
+              <span class="btn__icon">
+                <img
+                  src="assets/arrow-down.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width="19"
+                  height="21"
+                />
+              </span>
+              <span class="btn__label">Come nasce?</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- ========================== IL PROBLEMA ========================== -->
+        <section class="problema" id="il-problema">
+          <!--
+            Fondo viola tagliato a 45°: le righe dell'hero filtrano nell'angolo in
+            alto a destra. Su mobile le bande diventano visibili dal 20% della
+            larghezza, su desktop il taglio parte dal 54,9% (Figma "Vector 2").
+          -->
+          <div class="problema__bg" aria-hidden="true"></div>
+
+          <div class="container section section--problema">
+            <div class="section__head">
+              <span class="badge">Il problema</span>
+              <h2 class="heading heading--chiaro">
+                Come mai i tuoi <br class="br-desktop" />
+                feed sembrano assecondarti?
+              </h2>
+            </div>
+
+            <div class="problema__grid">
+              <article class="card card--viola">
+                <h3 class="card__title">Confirmation Bias</h3>
+                <p class="card__body">
+                  È la tendenza a cercare, ricordare e interpretare le
+                  informazioni in modo da confermare le proprie convinzioni
+                  preesistenti, scartando tutto ciò che le contraddice
+                </p>
+              </article>
+
+              <article class="card card--viola">
+                <h3 class="card__title">Filter Bubble</h3>
+                <p class="card__body">
+                  È la bolla digitale creata dagli algoritmi sulla base delle
+                  nostre preferenze, isolandoci da qualsiasi confronto reale
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ============================ LA SFIDA ============================ -->
+      <section class="sfida" id="la-sfida">
+        <div class="container section section--sfida">
+          <div class="section__head">
+            <span class="badge">La sfida</span>
+            <h2 class="heading heading--chiaro">
+              Come rendiamo <br />
+              il confronto dal <br class="br-mobile" />
+              vivo di nuovo empatico?
+            </h2>
+          </div>
+
+          <div class="card card--plain card--fucsia sfida__card">
+            <p class="card__body">
+              Serve uno spazio di confronto diretto e sicuro per sfuggire alle
+              manipolazioni digitali che inibiscono la capacità critica e
+              l&rsquo;empatia. Il dialogo reale dovrebbe essere
+              un&rsquo;opportunità per riscoprire la curiosità verso
+              l&rsquo;altro e capire da dove derivano le convinzioni di ognuno
+              di noi.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ IL GIOCO ============================ -->
+      <section class="gioco" id="il-gioco">
+        <div class="container section section--gioco">
+          <div class="section__head">
+            <span class="badge">Il gioco</span>
+
+            <div class="gioco__headrow">
+              <h2 class="heading">
+                Oltre lo schermo, <br class="br-desktop" />
+                sblocca il confronto!
+              </h2>
+
+              <div class="players players--inline">
+                <span class="players__number">20+</span>
+                <span class="players__rule" aria-hidden="true"></span>
+                <img
+                  class="players__icon"
+                  src="assets/giocatori.png"
+                  alt="Numero di giocatori"
+                  width="2985"
+                  height="2572"
+                />
+                <span class="players__number players__number--last">3-6</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="gioco__body">
+            <!--
+              Galleria: le slide sono costruite da script.js a partire
+              dall'elenco in assets/game-carousel/manifest.js, generato dai file
+              presenti nella cartella. Senza immagini resta il placeholder grigio
+              previsto da Figma.
+            -->
+            <div class="carousel">
+              <div class="carousel__track" id="carousel-track"></div>
+
+              <button
+                class="carousel__btn btn-round carousel__btn--prev"
+                type="button"
+                aria-label="Immagine precedente"
+                data-carousel-dir="-1"
+              >
+                <img
+                  src="assets/arrow-down.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width="19"
+                  height="21"
+                />
+              </button>
+
+              <button
+                class="carousel__btn btn-round carousel__btn--next"
+                type="button"
+                aria-label="Immagine successiva"
+                data-carousel-dir="1"
+              >
+                <img
+                  src="assets/arrow-down.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width="19"
+                  height="21"
+                />
+              </button>
+            </div>
+
+            <div class="players players--stack">
+              <span class="players__number">20+</span>
+              <span class="players__rule" aria-hidden="true"></span>
+              <img
+                class="players__icon"
+                src="assets/giocatori.png"
+                alt="Numero di giocatori"
+                width="2985"
+                height="2572"
+              />
+              <span class="players__number players__number--last">3-6</span>
+            </div>
+
+            <p class="gioco__text">
+              Blabble è il gioco che mette al centro del tavolo i temi di cui
+              altrimenti non parleresti mai. Attraverso un sistema di carte e
+              associazioni emotive, invita le persone a esporsi, motivare la
+              propria visione e mettersi nei panni degli altri.
+              Un&rsquo;esperienza dal vivo pensata per trasformare la
+              polarizzazione digitale in intesa e il disaccordo in pura
+              curiosità.
+            </p>
+
+            <a
+              class="btn btn--giallo gioco__btn"
+              href="downloads/regolamento.pdf"
+              download="regolamento.pdf"
+              type="application/pdf"
+            >
+              <span class="btn__icon">
+                <img
+                  src="assets/arrow-down-giallo.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width="19"
+                  height="21"
+                />
+              </span>
+              <span class="btn__label">
+                <span class="only-mobile">Scarica regolamento</span>
+                <span class="only-desktop">Scarica il regolamento</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================== IL GLOSSARIO ========================== -->
+      <section class="glossario" id="il-glossario">
+        <div class="container section section--glossario">
+          <div class="section__head">
+            <span class="badge">Il glossario</span>
+          </div>
+
+          <ul class="glossary" id="glossary-list">
+            <!-- le 26 voci sono generate da script.js a partire da un unico elenco -->
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================= FOOTER ============================= -->
+      <footer class="footer">
+        <div class="container footer__inner">
+          <div class="footer__card">
+            <div class="logo-lockup footer__logo">
+              <img
+                class="logo-lockup__wordmark"
+                src="assets/logo-blabble.png"
+                alt="Blabble"
+                width="691"
+                height="262"
+              />
+              <img
+                class="logo-lockup__bubble"
+                src="assets/bubble.svg"
+                alt=""
+                aria-hidden="true"
+              />
+              <img
+                class="logo-lockup__bubble-text"
+                src="assets/bubble-text.svg"
+                alt="E tu che ne pensi?"
+              />
+            </div>
+
+            <div class="footer__credits">
+              <h2 class="footer__title">Progetto accademico</h2>
+
+              <p class="footer__text">
+                Giorgia Adriano <br />
+                Caterina Maria Dedato
+              </p>
+
+              <p class="footer__text">
+                Prof. Antonello Lipori <br />
+                Informatica multimediale avanzata <br />
+                ISIA Roma Design <br />
+                A.A. 2025/2026
+              </p>
+
+              <button
+                class="btn btn--arancio btn--compact footer__btn"
+                type="button"
+                data-open-fonti
+              >
+                <span class="btn__icon">
+                  <img
+                    src="assets/arrow-down.svg"
+                    alt=""
+                    aria-hidden="true"
+                    width="19"
+                    height="21"
+                  />
+                </span>
+                <span class="btn__label">Fonti</span>
+              </button>
+
+              <p class="footer__copyright">©2026 Blabble</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <!-- ============================== POPUP ============================== -->
+    <!--
+      Due finestre modali con la stessa struttura del design: pannello con
+      angoli morbidi, titolo Fontick, pulsante giallo di chiusura in alto a
+      destra e fondo sfocato. Il glossario riempie titolo e testo da script.js.
+    -->
+    <dialog
+      class="modal modal--glossario"
+      id="modal-glossario"
+      aria-labelledby="modal-glossario-title"
+    >
+      <div class="modal__head">
+        <h2 class="modal__title" id="modal-glossario-title"></h2>
+        <button
+          class="modal__close btn-round"
+          type="button"
+          aria-label="Chiudi"
+        >
+          <span class="plus plus--close" aria-hidden="true"></span>
+        </button>
+      </div>
+      <p class="modal__body" id="modal-glossario-body"></p>
+    </dialog>
+
+    <dialog
+      class="modal modal--fonti"
+      id="modal-fonti"
+      aria-labelledby="modal-fonti-title"
+    >
+      <div class="modal__head">
+        <h2 class="modal__title" id="modal-fonti-title">Fonti</h2>
+        <button
+          class="modal__close btn-round"
+          type="button"
+          aria-label="Chiudi"
+        >
+          <span class="plus plus--close" aria-hidden="true"></span>
+        </button>
+      </div>
+      <ul class="modal__body modal__list">
+        <li>
+          L&rsquo;era della dopamina. Come mantenere l'equilibrio nella società
+          del &laquo;tutto e subito&raquo;, Anna Lembke, ROI Edizioni, 2022
+        </li>
+        <li>
+          Etica dell'intelligenza artificiale. Sviluppi, opportunità, sfide,
+          Luciano Floridi, Raffaello Cortina Editorie, 2022
+        </li>
+        <li>
+          Teorie delle comuncazioni di massa, Mauro Wolf, Strumenti Bompiani,
+          1997
+        </li>
+        <li>
+          Nello sciame. Visioni del digitale, Byung-Chul Han, Nottetempo, 2015
+        </li>
+      </ul>
+    </dialog>
+
+    <script src="assets/game-carousel/manifest.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
