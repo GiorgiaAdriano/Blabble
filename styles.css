@@ -12,7 +12,7 @@
 /* ----------------------------------------------------------------- Font --- */
 @font-face {
   font-family: "Gyrotrope";
-  src: url("fonts/GyrotropeVF.ttf") format("truetype-variations");
+  src: url("fonts/GyrotropeVF.ttf") format("truetype");
   font-weight: 400 900;
   font-style: normal;
   font-display: swap;
@@ -20,7 +20,7 @@
 
 @font-face {
   font-family: "Fontick";
-  src: url("fonts/Fontick.ttf") format("truetype");
+  src: url("fonts/fontick.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
