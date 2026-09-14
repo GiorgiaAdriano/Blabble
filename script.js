@@ -45,7 +45,7 @@
         "L'espressione \"famiglia tradizionale\" definisce storicamente un nucleo composto da una coppia eterosessuale unita in matrimonio e dai loro figli biologici, basato su ruoli genitoriali distinti. Questo assetto ha offerto continuità culturale, stabilità demografica e una rete primaria di cura e trasmissione generazionale delle risorse. Al contempo, tale modello esclude configurazioni affettive e identitarie differenti (come coppie dello stesso sesso, famiglie monogenitoriali o conviventi non sposati), riducendo l'autonomia individuale e riflettendo rigide gerarchie di genere.",
     },
     {
-      title: "Fast Fashion",
+      title: "Fast fashion",
       text:
         "Modello di produzione e vendita del settore tessile incentrato sulla realizzazione rapida di capi d’abbigliamento economici, ispirati alle ultime tendenze delle sfilate o dei media. Il sistema si basa su cicli produttivi molto brevi, filiere globali flessibili e un ricambio costante delle collezioni nei negozi fisici e online. Questa formula garantisce ai consumatori un accesso frequente a prezzi ridotti, comportando al contempo elevati volumi di consumo, smaltimento e impiego di risorse.",
     },
@@ -65,7 +65,7 @@
         "Consiste nello spostamento stabile di individui da un paese d'origine a un altro per motivi economici, sociali o di sicurezza. Nei paesi riceventi compensa cali demografici, copre carenze di manodopera in settori chiave e arricchisce la diversità culturale. Al contempo, flussi consistenti e rapidi pongono pressioni sui servizi pubblici locali, possono alimentare frizioni nell'integrazione sociale e privano i paesi di partenza di capitale umano e competenze professionali qualificate.",
     },
     {
-      title: "Intelligenza Artificiale",
+      title: "Intelligenza artificiale",
       text:
         "Comprende sistemi informatici capaci di svolgere compiti tipici dell'intelletto umano, come apprendere dati, riconoscere schemi e risolvere problemi complessi. Questa tecnologia velocizza la ricerca scientifica, automatizza mansioni ripetitive e ottimizza la gestione di servizi medici e industriali. Allo stesso tempo introduce il rischio di disoccupazione tecnologica, presenta vulnerabilità legate a errori o pregiudizi algoritmici e solleva questioni sulla tutela della privacy.",
     },
@@ -120,7 +120,7 @@
         "Sistema di credenze, pratiche e valori incentrato sulla relazione tra l'essere umano e il sacro, il divino o una realtà trascendente. Essa offre sostegno emotivo, risposte sul senso dell'esistenza, coesione sociale e una rete di aiuto comunitario. Le appartenenze confessionali possono favorire dogmatismo, limitare l'autonomia di pensiero, generare tensioni con visioni laiche o scientifiche e alimentare conflitti tra comunità con fedi diverse.",
     },
     {
-      title: "Smart Working",
+      title: "Smart working",
       text:
         "Modalità di lavoro flessibile che sfrutta tecnologie digitali per svolgere le proprie mansioni al di fuori della sede aziendale tradizionale, senza vincoli rigidi di orario o spazio. Questo assetto riduce i tempi di spostamento quotidiano, favorisce l'autonomia nella gestione della giornata e abbatte i costi di gestione degli uffici. Al tempo stesso, può indebolire la separazione tra vita professionale e privata, limitare le interazioni umane e favorire una sensazione di isolamento.",
     },
